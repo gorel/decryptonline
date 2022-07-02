@@ -1,0 +1,57 @@
+#######################
+# Creating a new game #
+#######################
+  - Someone clicks button to create lobby
+      - show code
+      - allow people to join by inputting the instance code
+        - input name
+        - select team
+    - at least 4 total players -> allow leader to hit "begin"
+      1. generate two Board objects
+        - create a Card object for each slot in the board
+      2. generate a Team for each team
+      3. generate Game
+      4. generate GameInstance
+        - generate an empty ScoreCard
+        - use the code as the instance_id
+        - use TEAM1_TURN as status
+        - use voting mode decided from earlier
+        - use guess_timeout decided from earlier
+        - use game generated in previous step
+      6. Write instance
+
+##############
+# Round play #
+##############
+  - for the appropriate team (round % 2 to determine which team goes first)...
+    1. generate a new code
+    2. determine which player should be giving the hint
+    3. START TIMER 1
+    4. accept codemaster's hint
+    (timer stop)
+    5. START TIMER 2
+    6. accept both team's guesses
+    (timer stop)
+    7. determine if an interception token should be awarded
+    8. determine if a miscommunication token should be awarded
+  - check for win condition
+  - increment the round counter
+
+############
+# Game end #
+############
+  - show "win" screen for relevant team
+  - distinguish between interception win and miscommunication win
+
+
+##############################
+# Other features to consider #
+##############################
+  - Allow captains to pause the game?
+  - Make "win condition" a variable
+  - Allow separate timers for hinting and guessing
+  - Allow game creator to choose word set
+    - Think about supporting custom word sets
+  - Allow game creator to choose number of words on each board (default 4, allow 3, 4, 5)
+  - Allow game creator to choose between "dictator" or "democracy" mode (captain chooses final answer, or it goes to a vote)
+  - Allow game creator to choose the time limit for giving hints
