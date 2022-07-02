@@ -13,6 +13,6 @@ from decryptonline.entity.model.voting_mode import VotingMode
 @dataclass
 class GameInstance:
     instance_id: str
+    game: Game
     voting_mode: VotingMode
     guess_timeout: Optional[int]
-    game: Game
