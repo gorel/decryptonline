@@ -1,9 +1,11 @@
 from dataclasses import dataclass
+from enum import Enum, auto
 
 from dataclasses_json import dataclass_json
 
 
 @dataclass_json
 @dataclass
-class Card:
-    text: str
+class VotingMode(Enum):
+    DICTATORSHIP = auto()
+    DEMOCRACY = auto()
