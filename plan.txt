@@ -18,7 +18,7 @@
         - use voting mode decided from earlier
         - use guess_timeout decided from earlier
         - use game generated in previous step
-      6. Write instance
+      5. Write instance
 
 ##############
 # Round play #
@@ -55,3 +55,4 @@
   - Allow game creator to choose number of words on each board (default 4, allow 3, 4, 5)
   - Allow game creator to choose between "dictator" or "democracy" mode (captain chooses final answer, or it goes to a vote)
   - Allow game creator to choose the time limit for giving hints
+  - Security: don't allow other players to spoof responses

@@ -9,4 +9,5 @@ from dataclasses_json import dataclass_json
 @dataclass
 class Player:
     name: str
+    token: str
     is_captain: bool
