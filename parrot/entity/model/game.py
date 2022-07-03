@@ -4,9 +4,9 @@ from dataclasses import dataclass, field
 
 from dataclasses_json import dataclass_json
 
-from decryptonline.entity.model.game_status import GameStatus
-from decryptonline.entity.model.score_card import ScoreCard
-from decryptonline.entity.model.team import Team
+from parrot.entity.model.game_status import GameStatus
+from parrot.entity.model.score_card import ScoreCard
+from parrot.entity.model.team import Team
 
 
 DEFAULT_WIN_THRESHOLD = 2

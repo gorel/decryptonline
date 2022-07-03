@@ -2,8 +2,8 @@
 
 from dataclasses import dataclass
 
-from decryptonline.entity.game_lobby import GameLobby
-from decryptonline.entity.model.player import Player
+from parrot.entity.game_lobby import GameLobby
+from parrot.entity.model.player import Player
 
 
 @dataclass

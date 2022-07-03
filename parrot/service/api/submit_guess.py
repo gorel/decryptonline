@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from decryptonline.entity.game_instance import GameInstance
+from parrot.entity.game_instance import GameInstance
 
 
 @dataclass

@@ -5,7 +5,7 @@ from typing import List
 
 from dataclasses_json import dataclass_json
 
-from decryptonline.entity.model.round_notes import RoundNotes
+from parrot.entity.model.round_notes import RoundNotes
 
 
 @dataclass_json

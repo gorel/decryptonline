@@ -5,8 +5,8 @@ from typing import Optional
 
 from dataclasses_json import dataclass_json
 
-from decryptonline.entity.model.game import Game
-from decryptonline.entity.model.voting_mode import VotingMode
+from parrot.entity.model.game import Game
+from parrot.entity.model.voting_mode import VotingMode
 
 
 @dataclass_json

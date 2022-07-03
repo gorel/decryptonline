@@ -3,8 +3,8 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from decryptonline.entity.game_lobby import GameLobby
-from decryptonline.entity.model.voting_mode import VotingMode
+from parrot.entity.game_lobby import GameLobby
+from parrot.entity.model.voting_mode import VotingMode
 
 
 @dataclass

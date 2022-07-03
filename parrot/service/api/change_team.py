@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from decryptonline.entity.game_lobby import GameLobby
+from parrot.entity.game_lobby import GameLobby
 
 
 @dataclass

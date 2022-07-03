@@ -1,5 +1,5 @@
-from decryptonline.service.storage import StorageService
-from decryptonline.service.types import (
+from parrot.service.storage import StorageService
+from parrot.service.types import (
     CreateRequest,
     CreateResponse,
     GetRequest,
@@ -9,7 +9,7 @@ from decryptonline.service.types import (
 )
 
 
-class DecryptonlineService:
+class ParrotService:
     def __init__(self, storage_svc: StorageService) -> None:
         self.storage_svc = storage_svc
 

@@ -8,8 +8,8 @@ from typing import List
 
 from dataclasses_json import dataclass_json
 
-from decryptonline.entity.model.board import Board
-from decryptonline.entity.model.guess import Guess
+from parrot.entity.model.board import Board
+from parrot.entity.model.guess import Guess
 
 
 @dataclass_json

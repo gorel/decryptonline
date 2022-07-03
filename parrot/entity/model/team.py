@@ -5,8 +5,8 @@ from typing import List
 
 from dataclasses_json import dataclass_json
 
-from decryptonline.entity.model.board import Board
-from decryptonline.entity.model.player import Player
+from parrot.entity.model.board import Board
+from parrot.entity.model.player import Player
 
 
 @dataclass_json
