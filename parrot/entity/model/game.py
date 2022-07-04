@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass, field
+from enum import Enum, auto
 
 from dataclasses_json import dataclass_json
 
-from parrot.entity.model.game_status import GameStatus
 from parrot.entity.model.score_card import ScoreCard
 from parrot.entity.model.team import Team
+
+
+@dataclass_json
+@dataclass
+class GameStatus(Enum):
+    TEAM1_PLAY = auto()
+    TEAM2_PLAY = auto()
+    TEAM1_WON = auto()
+    TEAM2_WON = auto()
+    DRAW = auto()
 
 
 DEFAULT_WIN_THRESHOLD = 2

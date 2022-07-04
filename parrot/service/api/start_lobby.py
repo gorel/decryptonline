@@ -13,4 +13,4 @@ class StartLobbyRequest:
 
 @dataclass
 class StartLobbyResponse:
-    game: GameInstance
+    instance: GameInstance
