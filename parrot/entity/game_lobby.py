@@ -34,7 +34,6 @@ class GameLobby:
 
     def create_instance_and_start(self) -> GameInstance:
         board1, board2 = self._gen_two_boards()
-        board1, board2 = Board.create_two_from_lobby()
         game = Game(
             status=GameStatus.TEAM1_PLAY,
             team1=Team(name=self.team1_name, board=board1, players=self.team1_players),
