@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import abc
 from typing import Generic, Optional, Type, TypeVar
 

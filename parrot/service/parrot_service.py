@@ -2,7 +2,6 @@
 
 import random
 import string
-from parrot import entity
 
 from parrot.entity.game_instance import GameInstance
 from parrot.entity.game_lobby import GameLobby
