@@ -60,7 +60,9 @@ class GameLobby:
         raise PlayerNotFoundError(player_token)
 
     def add_player(self, player_name: str) -> None:
-        player = Player(name=player_name, is_captain=False, token=self._gen_new_player_token())
+        player = Player(
+            name=player_name, is_captain=False, token=self._gen_new_player_token()
+        )
         if len(self.team1_players) == 0:
             player.is_captain = True
             self.team1_players.append(player)
@@ -94,4 +96,6 @@ class GameLobby:
         raise NotImplementedError()
 
     def _gen_new_player_token(self) -> str:
-    return "".join(random.choice(string.hexdigits) for _ in range(LEN_NEW_PLAYER_TOKEN))
+        return "".join(
+            random.choice(string.hexdigits) for _ in range(LEN_NEW_PLAYER_TOKEN)
+        )

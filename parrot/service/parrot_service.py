@@ -13,20 +13,22 @@ from parrot.service.api.give_hint import GiveHintRequest, GiveHintResponse
 from parrot.service.api.join_lobby import JoinLobbyRequest, JoinLobbyResponse
 from parrot.service.api.start_lobby import StartLobbyRequest, StartLobbyResponse
 from parrot.service.api.submit_guess import SubmitGuessRequest, SubmitGuessResponse
-from parrot.service.storage import StorageService
+from parrot.service.config import ParrotServiceConfig
 
 
 INSTANCE_ID_LEN = 4
 
 
 class ParrotService:
-    def __init__(self, storage_svc: StorageService) -> None:
-        self.storage_svc = storage_svc
+    def __init__(self, cfg: ParrotServiceConfig) -> None:
+        self.cfg = cfg
 
     def change_team(self, request: ChangeTeamRequest) -> ChangeTeamResponse:
-        lobby = self.storage_svc.read(entity_type=GameLobby, key=request.instance_id)
+        lobby = self.cfg.storage_svc.read(
+            entity_type=GameLobby, key=request.instance_id
+        )
         lobby.change_team_for_player(request.player_token)
-        self.storage_svc.write(key=request.instance_id, value=lobby)
+        self.cfg.storage_svc.write(key=request.instance_id, value=lobby)
         return ChangeTeamResponse(lobby=lobby)
 
     def create_lobby(self, request: CreateLobbyRequest) -> CreateLobbyResponse:
@@ -38,47 +40,53 @@ class ParrotService:
             voting_mode=request.voting_mode,
             guess_timeout=request.guess_timeout,
         )
-        self.storage_svc.write(key=instance_id, value=lobby)
+        self.cfg.storage_svc.write(key=instance_id, value=lobby)
         return CreateLobbyResponse(lobby=lobby)
 
     def get_instance(self, request: GetInstanceRequest) -> GetInstanceResponse:
-        instance = self.storage_svc.read(
+        instance = self.cfg.storage_svc.read(
             entity_type=GameInstance, key=request.instance_id
         )
         return GetInstanceResponse(instance=instance)
 
     def get_lobby(self, request: GetLobbyRequest) -> GetLobbyResponse:
-        lobby = self.storage_svc.read(entity_type=GameLobby, key=request.instance_id)
+        lobby = self.cfg.storage_svc.read(
+            entity_type=GameLobby, key=request.instance_id
+        )
         return GetLobbyResponse(lobby=lobby)
 
     def give_hint(self, request: GiveHintRequest) -> GiveHintResponse:
-        instance = self.storage_svc.read(
+        instance = self.cfg.storage_svc.read(
             entity_type=GameInstance, key=request.instance_id
         )
         instance.give_hint(request.player_token, request.hint)
-        self.storage_svc.write(key=request.instance_id, value=instance)
+        self.cfg.storage_svc.write(key=request.instance_id, value=instance)
         return GiveHintResponse(instance=instance)
 
     def join_lobby(self, request: JoinLobbyRequest) -> JoinLobbyResponse:
-        lobby = self.storage_svc.read(entity_type=GameLobby, key=request.instance_id)
+        lobby = self.cfg.storage_svc.read(
+            entity_type=GameLobby, key=request.instance_id
+        )
         player = lobby.add_player(request.name)
-        self.storage_svc.write(key=request.instance_id, value=lobby)
+        self.cfg.storage_svc.write(key=request.instance_id, value=lobby)
         return JoinLobbyResponse(lobby=lobby, player=player)
 
     def start_lobby(self, request: StartLobbyRequest) -> StartLobbyResponse:
-        lobby = self.storage_svc.read(entity_type=GameLobby, key=request.instance_id)
+        lobby = self.cfg.storage_svc.read(
+            entity_type=GameLobby, key=request.instance_id
+        )
         instance = lobby.create_instance_and_start()
 
-        self.storage_svc.write(key=request.instance_id, value=instance)
-        self.storage_svc.write(key=request.instance_id, value=lobby)
+        self.cfg.storage_svc.write(key=request.instance_id, value=instance)
+        self.cfg.storage_svc.write(key=request.instance_id, value=lobby)
         return StartLobbyResponse(instance=instance)
 
     def submit_guess(self, request: SubmitGuessRequest) -> SubmitGuessResponse:
-        instance = self.storage_svc.read(
+        instance = self.cfg.storage_svc.read(
             entity_type=GameInstance, key=request.instance_id
         )
         instance.submit_guess(request.player_token, request.guess)
-        self.storage_svc.write(key=request.instance_id, value=instance)
+        self.cfg.storage_svc.write(key=request.instance_id, value=instance)
         return SubmitGuessResponse(instance=instance)
 
     def _gen_new_instance_id(self) -> str:
