@@ -5,7 +5,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 from parrot.entity.model.voting_mode import VotingMode
-from parrot.entity.view.player import Player
+from parrot.entity.schema.player import Player
 
 
 class GameLobby(BaseModel):
@@ -17,3 +17,6 @@ class GameLobby(BaseModel):
     team1_players: List[Player]
     team2_players: List[Player]
     started: bool
+
+    class Config:
+        orm_mode = True

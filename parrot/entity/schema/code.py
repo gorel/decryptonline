@@ -7,8 +7,8 @@ from typing import List
 
 from pydantic import BaseModel
 
-from parrot.entity.view.board import Board
-from parrot.entity.view.guess import Guess
+from parrot.entity.schema.board import Board
+from parrot.entity.schema.guess import Guess
 
 
 class Code(BaseModel):
@@ -21,3 +21,6 @@ class Code(BaseModel):
 
     def check_guess(self, guess: Guess) -> bool:
         return self.indices == guess.indices
+
+    class Config:
+        orm_mode = True

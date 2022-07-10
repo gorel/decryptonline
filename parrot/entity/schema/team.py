@@ -4,8 +4,8 @@ from typing import List
 
 from pydantic import BaseModel
 
-from parrot.entity.view.board import Board
-from parrot.entity.view.player import Player
+from parrot.entity.schema.board import Board
+from parrot.entity.schema.player import Player
 
 
 class Team(BaseModel):
@@ -14,3 +14,6 @@ class Team(BaseModel):
     players: List[Player]
     interception_tokens: int = 0
     miscommunication_tokens: int = 0
+
+    class Config:
+        orm_mode = True

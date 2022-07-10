@@ -7,3 +7,6 @@ from pydantic import BaseModel
 
 class Guess(BaseModel):
     indices: List[int]
+
+    class Config:
+        orm_mode = True

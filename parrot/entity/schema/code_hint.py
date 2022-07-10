@@ -8,3 +8,6 @@ from pydantic import BaseModel
 
 class CodeHint(BaseModel):
     indices: List[str]
+
+    class Config:
+        orm_mode = True

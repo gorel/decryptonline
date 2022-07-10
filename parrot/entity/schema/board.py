@@ -7,3 +7,6 @@ from pydantic import BaseModel
 
 class Board(BaseModel):
     cards: List[str]
+
+    class Config:
+        orm_mode = True

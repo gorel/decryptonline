@@ -4,8 +4,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from parrot.entity.view.game import Game
 from parrot.entity.model.voting_mode import VotingMode
+from parrot.entity.schema.game import Game
 
 
 class GameInstance(BaseModel):
@@ -13,3 +13,6 @@ class GameInstance(BaseModel):
     game: Game
     voting_mode: VotingMode
     guess_timeout: Optional[int]
+
+    class Config:
+        orm_mode = True

@@ -2,9 +2,9 @@
 
 from pydantic import BaseModel
 
-from parrot.entity.view.score_card import ScoreCard
-from parrot.entity.view.team import Team
 from parrot.entity.model.game import GameStatus
+from parrot.entity.schema.score_card import ScoreCard
+from parrot.entity.schema.team import Team
 
 
 class Game(BaseModel):
@@ -15,3 +15,6 @@ class Game(BaseModel):
     team1: Team
     team2: Team
     score_card: ScoreCard
+
+    class Config:
+        orm_mode = True
