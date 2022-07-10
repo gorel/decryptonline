@@ -1,26 +1,23 @@
 #!/usr/bin/env python3
 
-from __future__ import annotations
-
-import random
-from dataclasses import dataclass
+import json
 from typing import List
 
-from dataclasses_json import dataclass_json
+from sqlalchemy import Column, Integer, String
 
-from parrot.entity.model.board import Board
-from parrot.entity.model.guess import Guess
+from parrot.entity.database import ModelBase
 
 
-@dataclass_json
-@dataclass
-class Code:
-    indices: List[int]
+class Code(ModelBase):
+    id = Column(Integer, primary_key=True, index=True)
+    indices_db_str = Column(String)
 
-    @classmethod
-    def from_reference_board(cls, board: Board) -> Code:
-        n = len(board.cards)
-        return Code(random.sample(range(n), n))
+    @property
+    def indices(self) -> List[int]:
+        key = self.indices_db_str
+        assert isinstance(key, str)
+        return json.loads(key)
 
-    def check_guess(self, guess: Guess) -> bool:
-        return self.indices == guess.indices
+    @indices.setter
+    def indices(self, value: List[int]) -> None:
+        self.indices_db_str = json.dumps(value)

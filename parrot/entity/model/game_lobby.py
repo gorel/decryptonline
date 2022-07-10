@@ -2,35 +2,38 @@
 
 import random
 import string
-from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import Tuple
 
-from dataclasses_json import dataclass_json
+from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, String
+from sqlalchemy.orm import relation, relationship
 
+from parrot.entity.database import ModelBase
 from parrot.entity.errors import PlayerNotFoundError
 from parrot.entity.model.board import Board
-from parrot.entity.model.card import Card
 from parrot.entity.model.game import Game, GameStatus
+from parrot.entity.model.game_instance import GameInstance
 from parrot.entity.model.player import Player
 from parrot.entity.model.team import Team
 from parrot.entity.model.voting_mode import VotingMode
-from parrot.entity.game_instance import GameInstance
+from parrot.entity.model.voting_mode import VotingMode
 
 
 LEN_NEW_PLAYER_TOKEN = 12
 
 
-@dataclass_json
-@dataclass
-class GameLobby:
-    instance_id: str
-    team1_name: str
-    team2_name: str
-    voting_mode: VotingMode
-    guess_timeout: Optional[int]
-    team1_players: List[Player] = field(default_factory=list)
-    team2_players: List[Player] = field(default_factory=list)
-    started: bool = False
+class GameLobby(ModelBase):
+    id = Column(String, primary_key=True, index=True)
+    instance_id = Column(String, index=True, nullable=False)
+    team1_name = Column(String, nullable=False)
+    team2_name = Column(String, nullable=False)
+    voting_mode = Column(Enum(VotingMode), nullable=False)
+    started = Column(Boolean, nullable=False)
+    guess_timeout = Column(Integer)
+
+    team1_player_id = ForeignKey(Player.id)
+    team2_player_id = ForeignKey(Player.id)
+    team1_players = relationship(Player, foreign_keys=[team1_player_id])
+    team2_players = relationship(Player, foreign_keys=[team2_player_id])
 
     def change_team_for_player(self, player_token: str) -> None:
         # Check in team 1
@@ -91,7 +94,7 @@ class GameLobby:
 
     def _gen_two_boards(self) -> Tuple[Board, Board]:
         # TODO: Look up number of words * 2
-        words = [Card("foo")]
+        words = ["foo"]
         boards = Board(words[: len(words) // 2]), Board(words[len(words) // 2 :])
         raise NotImplementedError()
 

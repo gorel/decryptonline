@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
+import json
 from typing import List
 
-from dataclasses_json import dataclass_json
+from sqlalchemy import Column, Integer, String
 
-from parrot.entity.model.card import Card
+from parrot.entity.database import ModelBase
 
 
-@dataclass_json
-@dataclass
-class Board:
-    cards: List[Card]
+class Board(ModelBase):
+    id = Column(Integer, primary_key=True, index=True)
+    cards_db_str = Column(String)
+
+    @property
+    def cards(self) -> List[str]:
+        key = self.cards_db_str
+        assert isinstance(key, str)
+        return json.loads(key)
+
+    @cards.setter
+    def cards(self, value: List[str]) -> None:
+        self.cards_db_str = json.dumps(value)

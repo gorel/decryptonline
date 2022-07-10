@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
-from typing import List
+from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
-from dataclasses_json import dataclass_json
-
+from parrot.entity.database import ModelBase
 from parrot.entity.model.board import Board
 from parrot.entity.model.player import Player
 
 
-@dataclass_json
-@dataclass
-class Team:
-    name: str
-    board: Board
-    players: List[Player]
-    interception_tokens: int = 0
-    miscommunication_tokens: int = 0
+class Team(ModelBase):
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    interception_tokens = Column(Integer)
+    miscommunication_tokens = Column(Integer)
+
+    board_id = ForeignKey(Board.id)
+    player_id = ForeignKey(Player.id)
+
+    board = relationship(Board, uselist=False, foreign_keys=[board_id])
+    players = relationship(Player, foreign_keys=[player_id])

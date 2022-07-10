@@ -1,12 +1,23 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
+import json
 from typing import List
 
-from dataclasses_json import dataclass_json
+from sqlalchemy import Column, Integer, String
+
+from parrot.entity.database import ModelBase
 
 
-@dataclass_json
-@dataclass
-class CodeHint:
-    indices: List[str]
+class CodeHint(ModelBase):
+    id = Column(Integer, primary_key=True, index=True)
+    hint_db_str = Column(String)
+
+    @property
+    def hint(self) -> List[str]:
+        key = self.hint_db_str
+        assert isinstance(key, str)
+        return json.loads(key)
+
+    @hint.setter
+    def hint(self, value: List[str]) -> None:
+        self.hint_db_str = json.dumps(value)

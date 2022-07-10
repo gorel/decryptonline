@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
+from sqlalchemy import Boolean, Column, Integer, String
 
-from dataclasses_json import dataclass_json
+from parrot.entity.database import ModelBase
 
 
-@dataclass_json
-@dataclass
-class Player:
-    name: str
-    token: str
-    is_captain: bool
+class Player(ModelBase):
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    token = Column(String)
+    is_captain = Column(Boolean)
