@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-import random
-import string
+from sqlalchemy.orm import Session
 
 from parrot.entity.game_instance import GameInstance
 from parrot.entity.game_lobby import GameLobby
@@ -13,26 +12,20 @@ from parrot.service.api.give_hint import GiveHintRequest, GiveHintResponse
 from parrot.service.api.join_lobby import JoinLobbyRequest, JoinLobbyResponse
 from parrot.service.api.start_lobby import StartLobbyRequest, StartLobbyResponse
 from parrot.service.api.submit_guess import SubmitGuessRequest, SubmitGuessResponse
-from parrot.service.config import ParrotServiceConfig
-
-
-INSTANCE_ID_LEN = 4
 
 
 class ParrotService:
-    def __init__(self, cfg: ParrotServiceConfig) -> None:
-        self.cfg = cfg
+    def __init__(self, db: Session) -> None:
+        self.db = db
 
     def change_team(self, request: ChangeTeamRequest) -> ChangeTeamResponse:
-        lobby = self.cfg.storage_svc.read(
-            entity_type=GameLobby, key=request.instance_id
-        )
+        lobby = GameLobby.get_by_instance_id(self.db, request.instance_id)
         lobby.change_team_for_player(request.player_token)
-        self.cfg.storage_svc.write(key=request.instance_id, value=lobby)
+        self.db.commit()
         return ChangeTeamResponse(lobby=lobby)
 
     def create_lobby(self, request: CreateLobbyRequest) -> CreateLobbyResponse:
-        instance_id = self._gen_new_instance_id()
+        instance_id = GameLobby._gen_new_instance_id()
         lobby = GameLobby(
             instance_id=instance_id,
             team1_name=request.team1_name,
@@ -40,57 +33,39 @@ class ParrotService:
             voting_mode=request.voting_mode,
             guess_timeout=request.guess_timeout,
         )
-        self.cfg.storage_svc.write(key=instance_id, value=lobby)
+        self.db.add(lobby)
+        self.db.commit()
         return CreateLobbyResponse(lobby=lobby)
 
     def get_instance(self, request: GetInstanceRequest) -> GetInstanceResponse:
-        instance = self.cfg.storage_svc.read(
-            entity_type=GameInstance, key=request.instance_id
-        )
+        instance = GameInstance.get_by_instance_id(self.db, request.instance_id)
         return GetInstanceResponse(instance=instance)
 
     def get_lobby(self, request: GetLobbyRequest) -> GetLobbyResponse:
-        lobby = self.cfg.storage_svc.read(
-            entity_type=GameLobby, key=request.instance_id
-        )
+        lobby = GameLobby.get_by_instance_id(self.db, request.instance_id)
         return GetLobbyResponse(lobby=lobby)
 
     def give_hint(self, request: GiveHintRequest) -> GiveHintResponse:
-        instance = self.cfg.storage_svc.read(
-            entity_type=GameInstance, key=request.instance_id
-        )
+        instance = GameInstance.get_by_instance_id(self.db, request.instance_id)
         instance.give_hint(request.player_token, request.hint)
-        self.cfg.storage_svc.write(key=request.instance_id, value=instance)
+        self.db.commit()
         return GiveHintResponse(instance=instance)
 
     def join_lobby(self, request: JoinLobbyRequest) -> JoinLobbyResponse:
-        lobby = self.cfg.storage_svc.read(
-            entity_type=GameLobby, key=request.instance_id
-        )
+        lobby = GameLobby.get_by_instance_id(self.db, request.instance_id)
         player = lobby.add_player(request.name)
-        self.cfg.storage_svc.write(key=request.instance_id, value=lobby)
+        self.db.commit()
         return JoinLobbyResponse(lobby=lobby, player=player)
 
     def start_lobby(self, request: StartLobbyRequest) -> StartLobbyResponse:
-        lobby = self.cfg.storage_svc.read(
-            entity_type=GameLobby, key=request.instance_id
-        )
+        lobby = GameLobby.get_by_instance_id(self.db, request.instance_id)
         instance = lobby.create_instance_and_start()
-
-        self.cfg.storage_svc.write(key=request.instance_id, value=instance)
-        self.cfg.storage_svc.write(key=request.instance_id, value=lobby)
+        self.db.add(instance)
+        self.db.commit()
         return StartLobbyResponse(instance=instance)
 
     def submit_guess(self, request: SubmitGuessRequest) -> SubmitGuessResponse:
-        instance = self.cfg.storage_svc.read(
-            entity_type=GameInstance, key=request.instance_id
-        )
+        instance = GameInstance.get_by_instance_id(self.db, request.instance_id)
         instance.submit_guess(request.player_token, request.guess)
-        self.cfg.storage_svc.write(key=request.instance_id, value=instance)
+        self.db.commit()
         return SubmitGuessResponse(instance=instance)
-
-    def _gen_new_instance_id(self) -> str:
-        # TODO: Check storage_svc to ensure this instance doesn't exist already
-        return "".join(
-            random.choice(string.ascii_uppercase) for _ in range(INSTANCE_ID_LEN)
-        )

@@ -56,3 +56,4 @@
   - Allow game creator to choose between "dictator" or "democracy" mode (captain chooses final answer, or it goes to a vote)
   - Allow game creator to choose the time limit for giving hints
   - Security: don't allow other players to spoof responses
+    - Introduce concept of ViewerContext

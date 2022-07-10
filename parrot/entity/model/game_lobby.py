@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
+from __future__ import annotations
+
 import random
 import string
 from typing import Tuple
 
 from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, String
-from sqlalchemy.orm import relation, relationship
+from sqlalchemy.orm import Session, relationship
 
 from parrot.entity.database import ModelBase
 from parrot.entity.errors import PlayerNotFoundError
@@ -15,15 +17,14 @@ from parrot.entity.model.game_instance import GameInstance
 from parrot.entity.model.player import Player
 from parrot.entity.model.team import Team
 from parrot.entity.model.voting_mode import VotingMode
-from parrot.entity.model.voting_mode import VotingMode
 
 
+INSTANCE_ID_LEN = 4
 LEN_NEW_PLAYER_TOKEN = 12
 
 
 class GameLobby(ModelBase):
-    id = Column(String, primary_key=True, index=True)
-    instance_id = Column(String, index=True, nullable=False)
+    instance_id = Column(String, primary_key=True, index=True)
     team1_name = Column(String, nullable=False)
     team2_name = Column(String, nullable=False)
     voting_mode = Column(Enum(VotingMode), nullable=False)
@@ -32,8 +33,13 @@ class GameLobby(ModelBase):
 
     team1_player_id = ForeignKey(Player.id)
     team2_player_id = ForeignKey(Player.id)
+
     team1_players = relationship(Player, foreign_keys=[team1_player_id])
     team2_players = relationship(Player, foreign_keys=[team2_player_id])
+
+    @classmethod
+    def get_by_instance_id(cls, db: Session, instance_id: str) -> GameLobby:
+        return db.query(cls).filter(cls.instance_id == instance_id).first()
 
     def change_team_for_player(self, player_token: str) -> None:
         # Check in team 1
@@ -98,7 +104,20 @@ class GameLobby(ModelBase):
         boards = Board(words[: len(words) // 2]), Board(words[len(words) // 2 :])
         raise NotImplementedError()
 
-    def _gen_new_player_token(self) -> str:
+    @classmethod
+    def _gen_new_instance_id(cls, db: Session, length: int = INSTANCE_ID_LEN) -> str:
+        candidate_id = "".join(
+            random.choice(string.ascii_uppercase) for _ in range(length)
+        )
+        # Keep going until we don't have a collision
+        while cls.get_by_instance_id(db, candidate_id) is not None:
+            candidate_id = "".join(
+                random.choice(string.ascii_uppercase) for _ in range(length)
+            )
+        return candidate_id
+
+    @classmethod
+    def _gen_new_player_token(cls) -> str:
         return "".join(
             random.choice(string.hexdigits) for _ in range(LEN_NEW_PLAYER_TOKEN)
         )

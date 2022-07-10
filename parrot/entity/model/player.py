@@ -8,5 +8,5 @@ from parrot.entity.database import ModelBase
 class Player(ModelBase):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
-    token = Column(String)
+    token = Column(String, index=True)
     is_captain = Column(Boolean)
