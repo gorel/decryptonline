@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
 from typing import List
+
+from pydantic import BaseModel
 
 from parrot.entity.game_instance import GameInstance
 
 
-@dataclass
-class SubmitGuessRequest:
+class SubmitGuessRequest(BaseModel):
     instance_id: str
     player_token: str
     guess: List[int]
 
 
-@dataclass
-class SubmitGuessResponse:
+class SubmitGuessResponse(BaseModel):
     instance: GameInstance

@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
 from typing import List
+
+from pydantic import BaseModel
 
 from parrot.entity.game_instance import GameInstance
 
 
-@dataclass
-class GiveHintRequest:
+class GiveHintRequest(BaseModel):
     instance_id: str
     player_token: str
     hint: List[str]
 
 
-@dataclass
-class GiveHintResponse:
+class GiveHintResponse(BaseModel):
     instance: GameInstance

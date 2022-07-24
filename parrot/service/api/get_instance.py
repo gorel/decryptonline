@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
+from pydantic import BaseModel
 
 from parrot.entity.game_instance import GameInstance
 
 
-@dataclass
-class GetInstanceRequest:
+class GetInstanceRequest(BaseModel):
     instance_id: str
 
 
-@dataclass
-class GetInstanceResponse:
+class GetInstanceResponse(BaseModel):
     instance: GameInstance

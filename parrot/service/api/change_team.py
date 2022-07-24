@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
+from pydantic import BaseModel
 
 from parrot.entity.game_lobby import GameLobby
 
 
-@dataclass
-class ChangeTeamRequest:
+class ChangeTeamRequest(BaseModel):
     instance_id: str
     player_token: str
 
 
-@dataclass
-class ChangeTeamResponse:
+class ChangeTeamResponse(BaseModel):
     lobby: GameLobby
