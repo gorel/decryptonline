@@ -9,6 +9,8 @@ from parrot.entity.database import ModelBase
 
 
 class Board(ModelBase):
+    __tablename__ = "board"
+
     id = Column(Integer, primary_key=True, index=True)
     cards_db_str = Column(String)
 

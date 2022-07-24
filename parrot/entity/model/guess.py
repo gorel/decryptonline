@@ -9,6 +9,8 @@ from parrot.entity.database import ModelBase
 
 
 class Guess(ModelBase):
+    __tablename__ = "guess"
+
     id = Column(Integer, primary_key=True, index=True)
     indices_db_str = Column(String)
 

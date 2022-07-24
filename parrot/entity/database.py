@@ -5,7 +5,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
 
 def __get_sqlalchemy_database_url() -> str:
@@ -14,7 +14,7 @@ def __get_sqlalchemy_database_url() -> str:
     return url
 
 
-def __get_engine() -> Engine:
+def get_engine() -> Engine:
     url = __get_sqlalchemy_database_url()
     connect_args = {}
     if url.lower().startswith("sqlite"):
@@ -22,7 +22,8 @@ def __get_engine() -> Engine:
     return create_engine(url, connect_args=connect_args)
 
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=__get_engine())
+def get_local_session() -> Session:
+    return sessionmaker(autocommit=False, autoflush=False, bind=get_engine())
 
 
 ModelBase = declarative_base()

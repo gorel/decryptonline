@@ -9,6 +9,8 @@ from parrot.entity.model.player import Player
 
 
 class Team(ModelBase):
+    __tablename__ = "team"
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     interception_tokens = Column(Integer)

@@ -13,6 +13,8 @@ from parrot.entity.model.voting_mode import VotingMode
 
 
 class GameInstance(ModelBase):
+    __tablename__ = "game_instance"
+
     instance_id = Column(String, primary_key=True, index=True)
     guess_timeout = Column(Integer, nullable=False)
     voting_mode = Column(Enum(VotingMode))

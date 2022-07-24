@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel
 
-from parrot.entity.game_lobby import GameLobby
+from parrot.entity.model.game_lobby import GameLobby
 
 
 class ChangeTeamRequest(BaseModel):

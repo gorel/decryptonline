@@ -10,6 +10,8 @@ from parrot.entity.model.team import Team
 
 
 class Game(ModelBase):
+    __tablename__ = "game"
+
     id = Column(Integer, primary_key=True, index=True)
     status = Column(Enum(GameStatus))
     round = Column(Integer)

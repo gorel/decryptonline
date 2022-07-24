@@ -9,6 +9,8 @@ from parrot.entity.model.round_notes import RoundNotes
 
 
 class ScoreCard(ModelBase):
+    __tablename__ = "score_card"
+
     id = Column(Integer, primary_key=True, index=True)
 
     team1_notes_id = ForeignKey(RoundNotes.id)

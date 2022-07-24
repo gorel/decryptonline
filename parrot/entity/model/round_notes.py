@@ -9,6 +9,8 @@ from parrot.entity.model.guess import Guess
 
 
 class RoundNotes(ModelBase):
+    __tablename__ = "round_notes"
+
     id = Column(Integer, primary_key=True, index=True)
 
     code_hint_id = ForeignKey(CodeHint.id)

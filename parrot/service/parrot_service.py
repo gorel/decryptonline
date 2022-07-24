@@ -18,12 +18,6 @@ class ParrotService:
     def __init__(self, db: Session) -> None:
         self.db = db
 
-    def change_team(self, request: ChangeTeamRequest) -> ChangeTeamResponse:
-        lobby = GameLobby.get_by_instance_id(self.db, request.instance_id)
-        lobby.change_team_for_player(request.player_token)
-        self.db.commit()
-        return ChangeTeamResponse(lobby=lobby)
-
     def create_lobby(self, request: CreateLobbyRequest) -> CreateLobbyResponse:
         instance_id = GameLobby._gen_new_instance_id()
         lobby = GameLobby(
@@ -36,6 +30,12 @@ class ParrotService:
         self.db.add(lobby)
         self.db.commit()
         return CreateLobbyResponse(lobby=lobby)
+
+    def change_team(self, request: ChangeTeamRequest) -> ChangeTeamResponse:
+        lobby = GameLobby.get_by_instance_id(self.db, request.instance_id)
+        lobby.change_team_for_player(request.player_token)
+        self.db.commit()
+        return ChangeTeamResponse(lobby=lobby)
 
     def get_instance(self, request: GetInstanceRequest) -> GetInstanceResponse:
         instance = GameInstance.get_by_instance_id(self.db, request.instance_id)

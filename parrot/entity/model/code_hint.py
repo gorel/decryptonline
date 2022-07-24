@@ -9,6 +9,8 @@ from parrot.entity.database import ModelBase
 
 
 class CodeHint(ModelBase):
+    __tablename__ = "code_hint"
+
     id = Column(Integer, primary_key=True, index=True)
     hint_db_str = Column(String)
 

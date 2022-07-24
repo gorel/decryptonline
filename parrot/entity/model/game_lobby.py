@@ -24,6 +24,8 @@ LEN_NEW_PLAYER_TOKEN = 12
 
 
 class GameLobby(ModelBase):
+    __tablename__ = "game_lobby"
+
     instance_id = Column(String, primary_key=True, index=True)
     team1_name = Column(String, nullable=False)
     team2_name = Column(String, nullable=False)
