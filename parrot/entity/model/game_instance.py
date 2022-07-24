@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session, relationship
 
 from parrot.entity.database import ModelBase
 from parrot.entity.model.game import Game
-from parrot.entity.model.voting_mode import VotingMode
+from parrot.entity.schema.voting_mode import VotingMode
 
 
 class GameInstance(ModelBase):

@@ -12,11 +12,12 @@ from sqlalchemy.orm import Session, relationship
 from parrot.entity.database import ModelBase
 from parrot.entity.errors import PlayerNotFoundError
 from parrot.entity.model.board import Board
-from parrot.entity.model.game import Game, GameStatus
+from parrot.entity.model.game import Game
 from parrot.entity.model.game_instance import GameInstance
 from parrot.entity.model.player import Player
 from parrot.entity.model.team import Team
-from parrot.entity.model.voting_mode import VotingMode
+from parrot.entity.schema.game_status import GameStatus
+from parrot.entity.schema.voting_mode import VotingMode
 
 
 INSTANCE_ID_LEN = 4
@@ -107,7 +108,7 @@ class GameLobby(ModelBase):
         raise NotImplementedError()
 
     @classmethod
-    def _gen_new_instance_id(cls, db: Session, length: int = INSTANCE_ID_LEN) -> str:
+    def gen_new_instance_id(cls, db: Session, length: int = INSTANCE_ID_LEN) -> str:
         candidate_id = "".join(
             random.choice(string.ascii_uppercase) for _ in range(length)
         )

@@ -2,8 +2,8 @@
 
 from sqlalchemy.orm import Session
 
-from parrot.entity.game_instance import GameInstance
-from parrot.entity.game_lobby import GameLobby
+from parrot.entity.model.game_instance import GameInstance
+from parrot.entity.model.game_lobby import GameLobby
 from parrot.service.api.change_team import ChangeTeamRequest, ChangeTeamResponse
 from parrot.service.api.create_lobby import CreateLobbyRequest, CreateLobbyResponse
 from parrot.service.api.get_instance import GetInstanceRequest, GetInstanceResponse
@@ -19,7 +19,7 @@ class ParrotService:
         self.db = db
 
     def create_lobby(self, request: CreateLobbyRequest) -> CreateLobbyResponse:
-        instance_id = GameLobby._gen_new_instance_id()
+        instance_id = GameLobby.gen_new_instance_id(self.db)
         lobby = GameLobby(
             instance_id=instance_id,
             team1_name=request.team1_name,

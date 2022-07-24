@@ -4,8 +4,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from parrot.entity.model.voting_mode import VotingMode
 from parrot.entity.schema.player import Player
+from parrot.entity.schema.voting_mode import VotingMode
 
 
 class GameLobby(BaseModel):

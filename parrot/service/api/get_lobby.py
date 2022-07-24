@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel
 
-from parrot.entity.model.game_lobby import GameLobby
+from parrot.entity.schema.game_lobby import GameLobby
 
 
 class GetLobbyRequest(BaseModel):

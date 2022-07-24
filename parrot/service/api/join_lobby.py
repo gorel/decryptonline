@@ -2,8 +2,8 @@
 
 from pydantic import BaseModel
 
-from parrot.entity.model.game_lobby import GameLobby
-from parrot.entity.model.player import Player
+from parrot.entity.schema.game_lobby import GameLobby
+from parrot.entity.schema.player import PlayerCreate
 
 
 class JoinLobbyRequest(BaseModel):
@@ -13,4 +13,4 @@ class JoinLobbyRequest(BaseModel):
 
 class JoinLobbyResponse(BaseModel):
     lobby: GameLobby
-    player: Player
+    player: PlayerCreate

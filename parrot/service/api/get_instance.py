@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel
 
-from parrot.entity.model.game_instance import GameInstance
+from parrot.entity.schema.game_instance import GameInstance
 
 
 class GetInstanceRequest(BaseModel):

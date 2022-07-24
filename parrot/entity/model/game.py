@@ -4,9 +4,9 @@ from sqlalchemy import Column, Enum, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
 from parrot.entity.database import ModelBase
-from parrot.entity.model.game_status import GameStatus
 from parrot.entity.model.score_card import ScoreCard
 from parrot.entity.model.team import Team
+from parrot.entity.schema.game_status import GameStatus
 
 
 class Game(ModelBase):

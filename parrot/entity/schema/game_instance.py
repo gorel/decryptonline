@@ -4,8 +4,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from parrot.entity.model.voting_mode import VotingMode
 from parrot.entity.schema.game import Game
+from parrot.entity.schema.voting_mode import VotingMode
 
 
 class GameInstance(BaseModel):

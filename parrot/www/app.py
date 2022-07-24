@@ -28,7 +28,7 @@ api = FastAPI(title="API")
 
 
 app.mount("/api", api)
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/", StaticFiles(directory="parrot/www/public", html=True), name="public")
 
 
 # Dependency
